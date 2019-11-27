@@ -1,0 +1,7 @@
+# Dependency directories
+node_modules/
+# Compiled TypeScript directory
+dist/
+
+# File that contains login credentials for Oiva app
+src/credentials.json
