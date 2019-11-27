@@ -38,3 +38,21 @@ In expample below the app is using port `5432` which is default port for Postgre
     "pgpPromise": "postgres://username:password@host:5432/oiva"
 }
 ```
+
+You may need to create firewall rule to allow incoming connections to port `3000` using command: `ufw allow 3000`. Please note that you may also have to make inbound port rule for the port `3000` from your server provider's control panel.
+
+Finally you can run Oiva app from software's root directory:
+
+```console
+npm run oiva
+```
+It should return the similar lines if the command is succeed:
+
+```console
+> Oiva-app@1.0.0 oiva /path/to/app
+> tsc && node dist/app.js
+
+Oiva app back-end listening on port 3000!
+```
+
+The backend part of the software can be now accessed by navigating with browser to the address `YOUR_HOSTNAME:3000`.
