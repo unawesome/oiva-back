@@ -1,0 +1,126 @@
+$flex = flex
+$auto = auto
+
+*
+	margin:0
+	padding:0
+	-webkit-box-sizing: border-box
+	-moz-box-sizing: border-box
+	box-sizing: border-box
+	-moz-osx-font-smoothing: grayscale
+	-webkit-font-smoothing: antialiased
+	font-smoothing: antialiased
+	scroll-behavior: smooth
+
+html, body
+	display: flex
+	flex: $auto
+	min-height: 100%
+
+body
+	background:#F5F3EB
+	-webkit-overflow-scrolling: touch
+
+
+#app
+	display: $flex
+	flex-direction: column
+	flex: $auto
+
+#oivaApp
+	display: $flex
+	flex: $auto
+	flex-direction: column
+
+header
+	background: #4f638d
+	display: $flex
+	flex-direction: row
+	align-items: center
+	height: 50px
+	width: 100%
+	position: fixed
+	top: 0
+	left: 0
+	z-index: 30
+
+	#logo
+		display: @display
+		height: 100%
+		width: calc(100% - 112px)
+		justify-content: center
+
+		a
+			display: @display
+			width: 95px
+			height: @height
+			background-image: url("/Oiva-logo-560x560.svg")
+			background-size: contain
+			background-repeat: no-repeat
+			background-position: center
+
+	nav
+		display: @display 
+		height 100%
+
+		ul
+			list-style-type:none
+			display: @display
+			height: @height
+			margin: 0
+
+			a
+				display:inline-block
+				padding:16px 8px 14px
+
+			a#menuToggle
+				display: flex
+				height: 45px
+				width: 56px
+				justify-content: center
+				align-items: center
+				color: #fff
+	
+#oivaContainer
+	display: $flex
+	width: 100%
+	flex: $auto
+	flex-direction: row
+	padding-top: 50px
+
+	#oivaNav
+		height: 150vh;
+		background: #3F4B63
+		position: fixed
+		z-index: 9
+
+		a.rs-nav-item-content
+			color:#fff!important
+
+			&:hover 
+				background: #30394c!important
+
+	#oivaNav.rs-sidenav-collapse-in
+		width: 220px;
+
+	#oivaContent
+		padding: 10px 66px
+		display: @display
+		flex: @flex
+		width: @width
+		align-items: center
+		overflow: auto
+		flex-direction: column
+		padding-right: 10px
+
+		section 
+			display: @display 
+			flex-direction: column
+			width: @width
+			flex: @flex
+
+footer
+	display: $flex
+	flex-direction: row
+	justify-content: center
+	padding:10px 0
