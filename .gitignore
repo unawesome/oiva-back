@@ -1,7 +1,7 @@
 # Dependency directories / backend
 backend/node_modules/
 # Compiled TypeScript directory
-#backend/dist/
+backend/dist/
 
 # File that contains login credentials for Oiva app backend
 backend/src/credentials.json
@@ -9,4 +9,4 @@ backend/src/credentials.json
 # Dependency directories / frontend
 frontend/node_modules/
 # Compiled TypeScript directory
-#frontend/dist/
+frontend/dist/
