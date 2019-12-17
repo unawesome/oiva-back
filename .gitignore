@@ -5,3 +5,7 @@ dist/
 
 # File that contains login credentials for Oiva app
 src/credentials.json
+
+# Ingnore package.json and package-lock.json TEMPORARY (lines below shouldn't exist in production version)
+package.json
+package-lock.json
