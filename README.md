@@ -1,51 +1,137 @@
-# Oiva app backend
+# Oiva-sovellus
+
+:::info
+**`25.11.2019`** Tietokantarakenne on _**lähes**_ ajan tasalla.
+
+Graafinen tietokantarakenne: [Dbdiagram.io:arrow_upper_right:](https://dbdiagram.io/d/5d9b3c7eff5115114db4fbff) (**_päivitetty_**).
+:::
+
+1. Lähtötasotesti (vastataan kaikkiin kysymyksiin)
+2. Toisen kirjautuminen: Osa-alueet eriteltynä 1-6, joihin voi vastata erikseen eri osa-alueisiin
+3. Vertaisarviointi: skannaa toisen käyttäjän, vertaisarvioinnin voi tehdä niistä osa-alueista, joihin vertaisarvioitava on vastannut
+4. Nice to have: 
+5. Login: sähköposti + salasana
+# 
+
+ 
+## Tietokanta
+
+SQL-tietokanta on suunniteltu PostgreSQL:lle.
+
+### Selityset
 
 
-## Install
 
-To install Oiva app backend, run the following command:
-
-
- IF **Node.js** is **NOT installed**
-
-
-```console
-curl -sL https://deb.nodesource.com/setup_12.x -o nodesource_setup.sh && sudo bash nodesource_setup.sh && sudo apt-get install nodejs
-```
-
-When **Node.js** is **installed** or already exists, make sure that you are in app's root directory (`oiva-back/`) and then install Oiva app using `npm`:
-
-```console
-npm install
-```
+|  |  | Selite |
+| -------- | -------- | -------- |
+| :key: | `PRIMARY KEY (PK)` | Primääriavain (uniikki muuttumaton arvo) |
+| 🗂️ |`INDEX (SINGLE/CONCATENATED)` | Text     |
+| :link: | `REFERENCE` | VIITTAUS: taulu.kolumni |
+| **INT** | `INTEGER` | KOKONAISLUKU |
+| **DATETIME** |  | PÄIVÄMÄÄRÄ (muotoa: YYYY-MM-DD HH:MM:SS |
+| **TINYTEXT** | | Tekstimutoinen data (maksimipituus: 255 merkkiä) |
 
 
-### Configure app
+---
 
-To be able to connect to database, you need to set connection string for `pg-promise` in `crendentials.json` file. The file can be found from `src` directory from the software root. Rename the file from `credentials.sample.json` to `credentials.json` by removing ".sample" from the filename. Change the value from line where key is `pgpPromise` and the value is `postgres://` and replace the connection string with the right one. The documentation for `pg-promise` library is available from [here](https://vitaly-t.github.io/pg-promise/Database.html). 
+### Tietokantarakenne + bulkkidata
 
-Below the app is using port `5432` which is default port for PostgreSQL and name of the database is `oiva`, but feel free to use different database name.
+> Suunniteltu tietokannan rakenne + testidataa tietokannan suunnittelua varten. 
 
-```json
-{
-    "pgpPromise": "postgres://username:password@host:5432/oiva"
-}
-```
+#### taulu: **assessments**
 
-You may need to create firewall rule to allow incoming connections to port `3000` using command: `ufw allow 3000`. Please note that you may also have to make inbound port rule for the port `3000` from your server provider's control panel.
+> ***assessments** sisältää käyttäjien tekemät arvioinnit, yksi rivi käsittää aina yhden kysymyksen vastauksen=arviointi*
 
-Finally you can run Oiva app from software's root directory:
+| id | question | answer | answered_by | asked_by | evaluated_at |
+| -------- | -------- | -------- | -------- | -------- | -------- |
+| `int A_I` :key: | `int` :link:[questions.id](#taulu-questions) | `int` ~~:link:[answer_options.id](#taulu-answer_options)~~**^1)^** | `int` :link:[users.id](#taulu-users) | `int` :link:[users.id](#taulu-users) | `timestamp` |
+| 37 | 30 | 12 | 42 | 42 | 2019-08-23 23:59:59 |
+| .. | .. | .. | .. | .. | .. |
 
-```console
-npm run oiva
-```
-It should return the similar lines if the command is succeed:
+`1) Taulu` [answer_options](#taulu-answer_options) `ei ole tällä hetkellä käytössä`
 
-```console
-> Oiva-app@1.0.0 oiva /path/to/app
-> tsc && node dist/app.js
 
-Oiva app back-end listening on port 3000!
-```
+---
 
-The backend part of the software can be now accessed by navigating with browser to the address `YOUR_HOSTNAME:3000`.
+
+#### taulu: **question_sets**
+
+> ***question_sets** sisältää kysymyssetit (A-E(F **^2)^**))*
+
+| id | content | letter |
+| -------- | -------- | -------- |
+| `int A_I` :key: | `VARCHAR(150)` | `VARCHAR(1)` |
+| 8 | Tiedonhallinta | A|
+| .. | .. | .. |
+
+`2) F-kysymyssetti mahdollisesti tulossa`
+
+
+
+---
+
+
+#### taulu: **question_subsets**
+
+> ***question_subsets** sisältää kysymyssettien (A-E) osa-alueet (ESIM. 1-2...4)*
+
+| id | content | number | question_set
+| -------- | -------- | -------- | -------- |
+| `int A_I` :key: | `VARCHAR(150)` | `int` | `int` :link:[question_sets.id](#taulu-question_sets) |
+| 37 | Tietotekniikka, osaan käyttää | 1 | 8 ||
+| .. | .. | .. | .. |
+
+
+
+---
+
+
+#### taulu: **questions**
+
+> ***questions** sisältää itse kysymykset (ESIM. a-d...f)*
+
+| id | content | letter | question_subset |
+| -------- | -------- | -------- | -------- |
+| `int A_I` :key: | `VARCHAR(150)` | `VARCHAR(1)` | `int` :link:[question_subsets.id](#taulu-question_subsets) |
+| 50 | Vuorovaikutuksellisia verkkoalustoja esim... | 4 | 37 |
+| .. | .. | .. | .. |
+
+
+
+---
+
+
+#### taulu: **answer_options**
+
+> ***answer_options** sisältää [kysymyksien](#taulu-questions) vastausvaihtoehdot (ESIM. 1-3..5)*
+
+:::warning
+HUOM! Vastausvaihtoehdot ovat tällä hetkellä ainoastaan numeroitu 1-5.
+
+**Allaoleva taulu ei (toistaiseksi) ole käytössä, vaan vaihtoehdot (1-5) generoidaan ohjelmallisesti.**
+:::
+
+| id | content | value | question |
+| -------- | -------- | -------- | -------- |
+| `int A_I` :key: | `VARCHAR(150)` | `int` | `int` :link:[questions.id](#taulu-questions) |
+| 12 | En osaa käyttää vuorovaikutteisia... | 3 | 50 |
+| .. | .. | .. | .. |
+
+
+
+---
+
+
+#### taulu: **users**
+
+> ***users** sisältää käyttäjät*
+
+:::info
+Taulun suunnittelu on kesken
+:::
+
+| id | username | null |
+| -------- | -------- | -------- |
+| `int A_I` :key: | `VARCHAR(18)` | `timestamp` |
+| 12 | foobar | null |
+| .. | .. | .. |
