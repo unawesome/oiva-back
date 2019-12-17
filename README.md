@@ -19,12 +19,6 @@ When **Node.js** is **installed** or already exists, make sure that you are in a
 npm install
 ```
 
-Install TypeScript with `npm`:
-
-```console
-npm install typescript --save-dev
-```
-
 
 ### Configure app
 
