@@ -1,7 +1,7 @@
 # Oiva-sovellus
 
-- FrontEnd: [readme](oiva-app/blob/master/frontend.md)
-- BackEnd: [readme](oiva-app/blob/master/backend.md)
+- FrontEnd: [readme](frontend.md)
+- BackEnd: [readme](backend.md)
 
 :::info
 **`25.11.2019`** Tietokantarakenne on _**lähes**_ ajan tasalla.
