@@ -3,6 +3,19 @@
 - FrontEnd: [readme](frontend.md)
 - BackEnd: [readme](backend.md)
 
+## Vaatimukset
+
+* Nginx *`latest stable`*
+* Node.js *`> v12.13.0`*
+* NPM *`> 6.12.0`*
+* Express.js
+* React.js (*written in typescript*)
+    * react
+    * react-dom
+* Parcel
+* PostgreSQL server
+
+
 :::info
 **`25.11.2019`** Tietokantarakenne on _**lähes**_ ajan tasalla.
 
