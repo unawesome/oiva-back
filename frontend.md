@@ -1,19 +1,21 @@
 # Frontend
 
+At first navigate to frontend directory.
+
 ## Yarn
 
 One way to install all dependencies and libraries using Yarn. It's a dependency management software. You can install Yarn from NPM using command: `npm i yarn`
 
 After you have installed Yarn, you can install all dependecies with following commands:
 
-`yarn add --save-dev parcel-bundler @types/react @types/react-dom`
+`yarn install`
 
-`yarn add react react-dom`
+Command above will install all dependencies from package.json.
 
 
 ## Starting application
 
-Navigate to frontend directory and then run command:
+Run command:
 
 `yarn run start`
 
